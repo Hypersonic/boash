@@ -1,12 +1,6 @@
 
-all: parseline splitlines
-	gcc parse.c splitlines.c -o boash
-
-parseline: parse.c
-	gcc -c parse.c
-
-splitlines: splitlines.c
-	gcc -c splitlines.c
+all: parse.o splitlines.o
+	gcc parse.o splitlines.o -o boash
 
 run: all
 	./boash
