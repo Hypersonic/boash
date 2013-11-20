@@ -1,6 +1,10 @@
+OBJ_FILES = parse.o splitlines.o
 
 all: parse.o splitlines.o
-	gcc parse.o splitlines.o -o boash
+	gcc $(OBJ_FILES) -o boash
 
 run: all
 	./boash
+
+clean:
+	rm $(OBJ_FILES)
