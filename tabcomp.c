@@ -12,7 +12,6 @@ tcomp_results* genResults(char* cmd_part, char** PATH, int PATHLEN, int perms) {
         ls_results* pos_cmds = ls(PATH[i]);
         for (j = 0; j < pos_cmds->num_results; ++j) {
             char* cmd = pos_cmds->results[j];
-            /*printf("i: %d, j: %d, cmd_part: %s, cmd: %s\n", i, j, cmd_part, cmd);*/
             if (strcasestr(cmd, cmd_part) != NULL && cmd[0] != '.') { // ignore case and anything starting with .
                 results->results[results->num_results] = cmd;
                 results->num_results++;
@@ -23,6 +22,7 @@ tcomp_results* genResults(char* cmd_part, char** PATH, int PATHLEN, int perms) {
     return results;
 }
 
+// Quicksort
 void sort_results(tcomp_results* results) {
     // base case, 0 or 1 results
     if (results->num_results < 2) {
@@ -58,20 +58,10 @@ void sort_results(tcomp_results* results) {
     } 
     for (i = 0; i < lower->num_results; ++i) {
         sort_results(lower);
-        /*printf("lower[%d] = %s\n", i, lower->results[i]);*/
     }
     for (i = 0; i < upper->num_results; ++i) {
         sort_results(upper);
-        /*printf("upper[%d] = %s\n", i, upper->results[i]);*/
     }
-    /*for (i = 0; i < lower->num_results; ++i) {*/
-        /*results->results[i] = lower->results[i];*/
-        /*printf("lower[%d] = %s\n", i, lower->results[i]);*/
-    /*}*/
-    /*for (; i < upper->num_results; ++i) {*/
-        /*results->results[i] = upper->results[i - halfway];*/
-        /*printf("upper[%d] = %s\n", i - halfway, upper->results[i-halfway]);*/
-    /*}*/
 }
 
 ls_results* ls(char* path) {
