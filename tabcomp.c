@@ -18,12 +18,12 @@ tcomp_results* genResults(char* cmd_part, char** PATH, int PATHLEN, int perms) {
             }
         }
     }
-    sort_results(results);
+    sort_results(results, cmd_part);
     return results;
 }
 
 // Quicksort
-void sort_results(tcomp_results* results) {
+void sort_results(tcomp_results* results, char* comp) {
     // base case, 0 or 1 results
     if (results->num_results < 2) {
         return;
@@ -43,7 +43,7 @@ void sort_results(tcomp_results* results) {
 
     int i;
     for (i = 0; i < halfway; ++i) {
-        if (strcmp(results->results[i], results->results[halfway+i]) > 0) {
+        if (similarity(results->results[i], comp) > similarity(results->results[halfway+i], comp)) {
             lower->results[lower->curr] = results->results[halfway+i];
             upper->results[upper->curr] = results->results[i];
         } else {
@@ -57,11 +57,24 @@ void sort_results(tcomp_results* results) {
         upper->results[upper->curr] = results->results[results->num_results - 1];
     } 
     for (i = 0; i < lower->num_results; ++i) {
-        sort_results(lower);
+        sort_results(lower, comp);
     }
     for (i = 0; i < upper->num_results; ++i) {
-        sort_results(upper);
+        sort_results(upper, comp);
     }
+}
+
+int similarity(char* s1, char* s2) {
+    int i;
+    int l1 = strlen(s1);
+    int l2 = strlen(s2);
+    int score = 0;
+    char* withcase = strstr(s1, s2);
+    char* non_case = strcasestr(s1, s2);
+    score += strlen(withcase!=NULL ? withcase : "") * 2; // Double score for case-matching
+    score += strlen(non_case!=NULL ? non_case : ""); // Single score for non-case matching
+    printf("%s to %s: %d\n", s1, s2, score);
+    return score;
 }
 
 ls_results* ls(char* path) {
@@ -84,7 +97,7 @@ ls_results* ls(char* path) {
 int main() {
     char** paths = malloc(1);
     paths[0] = ".";
-    tcomp_results* res = genResults("bCo", paths, 1, 0); 
+    tcomp_results* res = genResults("tab", paths, 1, 0); 
     int i;
     for (i=0; i < res->num_results; ++i) {
         printf("%s\n", res->results[i]);
