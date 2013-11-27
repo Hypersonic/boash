@@ -73,7 +73,6 @@ int similarity(char* s1, char* s2) {
     char* non_case = strcasestr(s1, s2);
     score += strlen(withcase!=NULL ? withcase : "") * 2; // Double score for case-matching
     score += strlen(non_case!=NULL ? non_case : ""); // Single score for non-case matching
-    printf("%s to %s: %d\n", s1, s2, score);
     return score;
 }
 
