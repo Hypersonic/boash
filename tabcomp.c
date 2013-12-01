@@ -93,7 +93,7 @@ ls_results* ls(char* path) {
     return results;
 }
 
-int main() {
+/*int main() {
     char** paths = malloc(1);
     paths[0] = ".";
     tcomp_results* res = genResults("tab", paths, 1, 0); 
@@ -102,4 +102,4 @@ int main() {
         printf("%s\n", res->results[i]);
     }
     return 0;
-}
+}*/
