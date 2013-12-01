@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
-#include "parser.c"
+#include "parser.h"
 #include "main.h"
 
 // TODO add support for -c 'command'
