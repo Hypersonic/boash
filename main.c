@@ -12,7 +12,7 @@
 // TODO close on ^D
 
 int main() {
-	char ** tokenList, line[1024];
+	char ** tokenList, line[1024], cwd[1024];
 	int pid, s;
 
 	if (signal(SIGINT, sigHandler) == SIG_ERR) {
@@ -26,8 +26,11 @@ int main() {
 	}
 
 	while (1) {
+		//prompt
+		getcwd(cwd, sizeof(cwd));
+		printf("%s %% ", cwd);
+
 		//get command
-		printf("WOOP %% ");
 		getNextLine(line, 1024);
 		line[strlen(line)] = 0;
 
@@ -40,8 +43,12 @@ int main() {
 		}
 
 		if (!strcmp(tokenList[0], "cd")) {
-			if (chdir(tokenList[1])) {
-				printf("cd: %s: no such directory");
+			if (tokenList[1]) {
+				if (chdir(tokenList[1])) {
+					printf("cd: %s: no such directory");
+				}
+			} else { // cd ~
+				chdir(getenv("HOME"));
 			}
 
 			continue;
