@@ -39,6 +39,14 @@ int main() {
 			exit(0);
 		}
 
+		if (!strcmp(tokenList[0], "cd")) {
+			if (chdir(tokenList[1])) {
+				printf("cd: %s: no such directory");
+			}
+
+			continue;
+		}
+
 		//run command
 		if (tokenList[0][0]) {
 			pid = fork();
